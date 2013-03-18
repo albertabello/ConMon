@@ -661,9 +661,12 @@ u_int isRTP (const u_char *packet, const u_int &size_payload)
   filelen_rtp=sizeof(RTP_DIR)+sizeof(char)*(10+3+3+8+3+6);
   rtpstore_pkt = (char*) calloc(1, filelen_rtp);
   
-  sprintf(rtpstore_pkt, "%s/rtp_%d_%d_%x.txt", RTP_DIR, start_time, pt, ssrc);
-  //printf ("filename: %s\n", rtpstore_pkt);
-  
+  //Does not save RTCP captures
+  if ((1 != ssrc)&&(72 != ssrc)) {
+   sprintf(rtpstore_pkt, "%s/rtp_%d_%d_%x.txt", RTP_DIR, start_time, pt, ssrc);
+   //printf ("filename: %s\n", rtpstore_pkt);
+  }
+
   FILE *fp_rtp;
   fp_rtp = fopen (rtpstore_pkt, "a+");  
 
